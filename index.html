@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cipher Zodiac</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Cipher Zodiac</h1>
+    <p class="intro">
+      A homophonic substitution cipher for the English alphabet. Type some text
+      and compare three encodings. A monoalphabetic swap keeps the uneven letter
+      distribution, so it can be broken by frequency analysis. The homophonic
+      cipher spreads each letter across several symbols based on English letter
+      frequency, which flattens the output distribution and hides those clues.
+    </p>
+  </header>
+
+  <section class="controls">
+    <label for="input-text">Input text</label>
+    <textarea id="input-text" rows="4" placeholder="Type or paste English text here.">The quick brown fox jumps over the lazy dog. Frequency analysis breaks simple substitution ciphers, but homophonic ciphers spread the work across many symbols.</textarea>
+
+    <div class="control-row">
+      <label for="symbol-set">Symbol set</label>
+      <select id="symbol-set">
+        <option value="zodiac">Zodiac and astrological</option>
+        <option value="emoji">Emoji</option>
+        <option value="chinese">Chinese characters</option>
+        <option value="mixed">Mixed glyphs</option>
+      </select>
+      <button id="shuffle" type="button">Shuffle mapping</button>
+    </div>
+  </section>
+
+  <section class="panels">
+    <article class="panel">
+      <h2>Plaintext</h2>
+      <p class="panel-note">Cleaned input letters.</p>
+      <div id="plain-output" class="output"></div>
+      <h3>Character frequency</h3>
+      <div id="plain-chart" class="chart"></div>
+    </article>
+
+    <article class="panel">
+      <h2>Monoalphabetic swap</h2>
+      <p class="panel-note">One symbol per letter.</p>
+      <div id="mono-output" class="output"></div>
+      <h3>Character frequency</h3>
+      <div id="mono-chart" class="chart"></div>
+    </article>
+
+    <article class="panel">
+      <h2>Homophonic</h2>
+      <p class="panel-note">Several symbols per letter, chosen at random.</p>
+      <div id="homophone-output" class="output"></div>
+      <h3>Character frequency</h3>
+      <div id="homophone-chart" class="chart"></div>
+    </article>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
