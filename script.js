@@ -60,10 +60,21 @@ const SYMBOL_SETS = {
   mixed: MIXED_SYMBOLS
 };
 
+function randomInt(bound) {
+  const max = Math.floor(0x100000000 / bound) * bound;
+  const buffer = new Uint32Array(1);
+  let value;
+  do {
+    window.crypto.getRandomValues(buffer);
+    value = buffer[0];
+  } while (value >= max);
+  return value % bound;
+}
+
 function shuffle(list) {
   const copy = list.slice();
   for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = randomInt(i + 1);
     const temp = copy[i];
     copy[i] = copy[j];
     copy[j] = temp;
@@ -122,8 +133,6 @@ function cleanLetters(text) {
   for (const ch of text.toLowerCase()) {
     if (ch >= "a" && ch <= "z") {
       result.push(ch);
-    } else if (ch === " " || ch === "\n" || ch === "\t") {
-      result.push(" ");
     }
   }
   return result;
@@ -131,26 +140,20 @@ function cleanLetters(text) {
 
 function encodeMono(letters, map) {
   return letters.map(function (ch) {
-    return ch === " " ? " " : map[ch];
+    return map[ch];
   });
 }
 
 function encodeHomophonic(letters, map) {
   return letters.map(function (ch) {
-    if (ch === " ") {
-      return " ";
-    }
     const options = map[ch];
-    return options[Math.floor(Math.random() * options.length)];
+    return options[randomInt(options.length)];
   });
 }
 
 function countFrequencies(tokens) {
   const counts = new Map();
   for (const token of tokens) {
-    if (token === " ") {
-      continue;
-    }
     counts.set(token, (counts.get(token) || 0) + 1);
   }
   return Array.from(counts.entries()).sort(function (a, b) {
